@@ -7,4 +7,6 @@ const db = new Sequelize({
     logging: false
 });
 
+const db = new Sequelize('sqlite::memory', { logging: false });
+
 module.exports = db;
