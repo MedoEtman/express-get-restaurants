@@ -8,44 +8,43 @@ app.use(express.json());
 
 //TODO: Create your GET Request Route Below: 
 
-a//app.use(express.urlencoded()); // parse the request body with urlencoded values
 
-app.get("/restaurants",  async (request, response, next)=>{
-    const restaurants = await Restaurant.findAll();
-    response.json(restaurants);
+app.get("/restaurants",  async (req, res, next) => {
+    const restaurants = await Restaurant.findAll({});
+    res.json(restaurants);
 });
 
-app.get("/restaurants/:id", async (request, response, next) => {
-    const index = request.params.id 
-    const restaurantAtIndex = await Restaurant.findByPk(index);
-    response.json(restaurantAtIndex);
+app.get("/restaurants/:id", async (req, res, next) => {
+    const number = req.params.id 
+    const restaurant = await Restaurant.findByPk(index);
+    res.json(restaurant);
 
 });
 // express route to add a new restaurant to database
 
-app.post("/restaurants", async (request, response, next) => {
-    const restaurant = request.body;
+app.post("/restaurants", async (req, res, next) => {
+    const restaurant = req.body;
     await Restaurant.create(restaurant);
     const restaurants = await Restaurant.findAll();
-    response.json(restaurants);
+    res.json(restaurants);
 })
 // express route to update(replace) a restaurant in database
-app.put("/restaurants/:id", async (request, response, next) => {
-    const index = request.params.id 
-    const restaurantAtIndex = await Restaurant.findByPk(index);
-    const newRestaurant = request.body;
-    await restaurantAtIndex.update(newRestaurant);
+app.put("/restaurants/:id", async (req, res, next) => {
+    const index = req.params.id 
+    const restaurant = await Restaurant.findByPk(index);
+    const newRestaurant = req.body;
+    await restaurant.update(newRestaurant);
     const restaurants = await Restaurant.findAll();
-    response.json(restaurants);
+    res.json(restaurants);
 })
 
 // express route to delete a restaurant in given index in database
-app.delete("/restaurants/:id", async (request, response, next) => {
-    const index = request.params.id 
-    const restaurantAtIndex = await Restaurant.findByPk(index);
-    await restaurantAtIndex.destroy();
+app.delete("/restaurants/:id", async (req, res, next) => {
+    const index = req.params.id 
+    const restaurant = await Restaurant.findByPk(index);
+    await restaurant.destroy();
     const restaurants = await Restaurant.findAll();
-    response.json(restaurants);
+    res.json(restaurants);
 });
 
 module.exports = app;
