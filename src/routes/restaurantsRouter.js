@@ -18,6 +18,5 @@ router.get("/:id", async (req, res, next) => {
     const restaurant = await Restaurant.findByPkid);
     res.json(restaurant);
 }
-
 });
 module.exports = router;
