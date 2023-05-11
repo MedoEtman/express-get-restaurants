@@ -1,13 +1,19 @@
 const express = require("express");
 const app = express();
+const restaurant = require("./routes/restaurantsRouter");
 const Restaurant = require("../models/index")
 const db = require("../db/connection");
 
 app.set("json spaces", 2);
 app.use(express.json());
-
+app.use(express.urlencoded({extended: true}));
 //TODO: Create your GET Request Route Below: 
+app.use("/restaurants", restaurant);
 
+app.use((err, req, next) => {
+    console.error(err.stack);
+    res.status(500).send("Something broke!");
+});
 
 app.get("/restaurants",  async (req, res, next) => {
     const restaurants = await Restaurant.findAll({});
@@ -18,7 +24,6 @@ app.get("/restaurants/:id", async (req, res, next) => {
     const number = req.params.id 
     const restaurant = await Restaurant.findByPk(index);
     res.json(restaurant);
-
 });
 // express route to add a new restaurant to database
 
